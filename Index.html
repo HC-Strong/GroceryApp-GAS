@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+   <script>
+    function doAThing(data) {
+      console.log("a thing was done");
+      document.getElementById('test').innerHTML = data;
+      }
+
+  </script>
+  </head>
+  <body>
+    Hello, World!<br>
+    
+    <input type="button" value="Test" 
+        onClick="google.script.run.withSuccessHandler(doAThing).getDataTest('A1')"/> &ensp;
+    <br>
+    ..........
+    <br>
+    <div id = "test"> nothing to see here... </div>
+
+  </body>
+</html>
