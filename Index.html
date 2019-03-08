@@ -3,22 +3,77 @@
   <head>
     <base target="_top">
    <script>
+   
+//    window.onload = function() { 
+//        createTable([["row 1, cell 1", "row 1, cell 2"], ["row 2, cell 1", "row 2, cell 2"]]);
+//    };
+   
+   
     function doAThing(data) {
       console.log("a thing was done");
       document.getElementById('test').innerHTML = data;
-      }
+    }
+    
+    
+    
+    function createTable(tableData) {
+        var table = document.createElement('table');
+        var tableBody = document.createElement('tbody');
+        
+        tableData.forEach(function(rowData) {
+            var row = document.createElement('tr');
+            rowData.forEach(function(cellData) {
+                var cell = document.createElement('td');
+                cell.appendChild(document.createTextNode(cellData));
+                row.appendChild(cell);
+            });
+            tableBody.appendChild(row);
+        });
+        table.appendChild(tableBody);
+        document.getElementById("tableContainer").innerHTML = "";
+        document.getElementById("tableContainer").appendChild(table);
+        
+        console.log("successfully created table");
+    }
+    //
+
+
 
   </script>
   </head>
+  
   <body>
-    Hello, World!<br>
+    <div id="container" class="container">
+      Hello, World!<br>
     
-    <input type="button" value="Test" 
-        onClick="google.script.run.withSuccessHandler(doAThing).getDataTest('A1')"/> &ensp;
-    <br>
-    ..........
-    <br>
-    <div id = "test"> nothing to see here... </div>
 
+      <input type="button" value="Create Table" 
+          onClick="google.script.run.withSuccessHandler(createTable).getDataTest('A1:B4')"/> &ensp;
+      <br>
+      <input type="button" value="Test"
+          onClick="javascript:createTable([['row 1, cell 1', 'row 1, cell 2'], ['row 2, cell 1', 'row 2, cell 2']]);"/> &ensp;
+      <br>
+      ..........
+      <br>
+      <div id="tableContainer">Table will go here</div>
+      <br>
+      
+      <div id = "test"> nothing to see here... </div>
+    </div>
   </body>
+  
+  
+  
+  
+  <style>
+    /* resize content/add border */
+   .container {
+      width: 95%;
+/*      height: 100%; /* not sure why this doesn't have an affect */
+      height: 675px;
+      border: 4px double grey;
+      border-radius: 15px;
+      padding: 10px;
+    }
+  </style>
 </html>
