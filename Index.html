@@ -14,18 +14,37 @@
       document.getElementById('test').innerHTML = data;
     }
     
+    function showTableItem(row, col){
+        var text = document.getElementById("itemTable").rows[row].cells[col].innerHTML;
+        document.getElementById("test").innerHTML = text;
+    }
+    
     
     
     function createTable(tableData) {
         var table = document.createElement('table');
+        table.setAttribute("id", "itemTable");
         var tableBody = document.createElement('tbody');
         
         tableData.forEach(function(rowData) {
             var row = document.createElement('tr');
+            
+            var count = 0;
             rowData.forEach(function(cellData) {
                 var cell = document.createElement('td');
-                cell.appendChild(document.createTextNode(cellData));
+                var append = "n";
+                if(count == 1) {
+                    append = "!!!!!!!!!!!!!!!";
+                }
+                
+                var btn = document.createElement("BUTTON");
+                var t = document.createTextNode(cellData+append);
+                btn.appendChild(t);
+                
+                
+                cell.appendChild(btn);
                 row.appendChild(cell);
+                count++;
             });
             tableBody.appendChild(row);
         });
@@ -44,14 +63,11 @@
   
   <body>
     <div id="container" class="container">
-      Hello, World!<br>
-    
-
-      <input type="button" value="Create Table" 
+     <input type="button" value="Create Table" 
           onClick="google.script.run.withSuccessHandler(createTable).getDataTest('A1:B4')"/> &ensp;
       <br>
-      <input type="button" value="Test"
-          onClick="javascript:createTable([['row 1, cell 1', 'row 1, cell 2'], ['row 2, cell 1', 'row 2, cell 2']]);"/> &ensp;
+      <input type="button" value="Item ref test"
+          onClick="javascript:showTableItem(2,0);"/> &ensp;
       <br>
       ..........
       <br>

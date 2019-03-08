@@ -1,6 +1,7 @@
 //// GLOBAL VARIABLES
-//Nothing here yet
-
+var ss = SpreadsheetApp.getActiveSpreadsheet();
+var storeSheet = ss.getSheetByName("stores");
+var itemSheet = ss.getSheetByName("items");
 
 
 
@@ -25,6 +26,3 @@ function openGroceryList(){
   SpreadsheetApp.getUi()
       .showModalDialog(html, title);
 }
-
-
-// items need name and status

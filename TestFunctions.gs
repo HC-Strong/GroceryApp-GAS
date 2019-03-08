@@ -6,11 +6,8 @@ function testFunctionWarning() {
 function getDataTest(cellRef) {
   
   testFunctionWarning();
-  
   // This is a testing function, when I recreate this sort of thing I want data about the spreadsheet stored in it's own global template/class so I have it when I need it from anywhere serverside
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var storeSheet = ss.getSheetByName("items");
-  var range = storeSheet.getRange(cellRef);
+  var range = itemSheet.getRange(cellRef);
   var data = range.getValues();
   Logger.log(data);
   return data;
