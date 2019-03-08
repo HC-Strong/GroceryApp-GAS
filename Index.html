@@ -32,17 +32,19 @@
             var count = 0;
             rowData.forEach(function(cellData) {
                 var cell = document.createElement('td');
-                var append = "n";
+                
                 if(count == 1) {
-                    append = "!!!!!!!!!!!!!!!";
+                    var btn = document.createElement("BUTTON");
+                    var t = document.createTextNode(cellData);
+                    btn.appendChild(t);
+                    cell.appendChild(btn);
+                } else {
+                    
+                    var t = document.createTextNode(cellData);
+                    cell.appendChild(t);
                 }
                 
-                var btn = document.createElement("BUTTON");
-                var t = document.createTextNode(cellData+append);
-                btn.appendChild(t);
-                
-                
-                cell.appendChild(btn);
+
                 row.appendChild(cell);
                 count++;
             });
