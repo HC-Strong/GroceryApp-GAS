@@ -6,20 +6,26 @@
    // Get the list of statuses from the spreadsheet when app launched and store to dataStorage div's data attribute for reference
       window.onload = function() {
         google.script.run.withSuccessHandler(sheetDataToAttrib).getDataFromSheet("statuses", 'A1:A3')
-    };
+      };
    
-   function sheetDataToAttrib(input) {
+     function sheetDataToAttrib(input) {
        var dataStorage = document.getElementById("storedData");
        dataStorage.setAttribute("data-status-list", input);
-       console.log(document.getElementById("storedData").getAttribute("data-status-list"));
-       }
+       console.log(getStoredData("status-list"));
+     }
+       
+     function getStoredData(dataName){
+          var rawData = document.getElementById("storedData").getAttribute("data-" + dataName);
+          var data = rawData.split(",");
+          return data;
+     }
+   
    
    
     function showTableItem(row, col){
         var text = document.getElementById("itemTable").rows[row].cells[col].innerHTML;
         document.getElementById("test").innerHTML = text;
     }
-    
     
     
     function createTable(tableData) {
@@ -39,10 +45,8 @@
                     var btn = document.createElement("BUTTON");
                     btn.setAttribute("onClick", "javascript:showTableItem(" + colCnt + ", " + rowCnt + ")");
                     btn.setAttribute("class", "statusButton");
-                    
-                    var storedData = document.getElementById("storedData");
-                    var temp = storedData.getAttribute("data-status-list");
-                    var statusList = temp.split(",");
+
+                    var statusList = getStoredData("status-list");
                     
                     var t = document.createTextNode(statusList[cellData]);
                     btn.appendChild(t);
@@ -66,11 +70,16 @@
         
         console.log("successfully created table");
     }
-    //
 
 
 
   </script>
+  
+  
+  
+  
+  
+  
   </head>
   
   <body>
@@ -92,7 +101,13 @@
   </body>
   
   
-  
+
+
+
+
+
+
+
   
   <style>
       /* item status button style */
