@@ -31,7 +31,12 @@
         return text;
     }
     function setTableItem(input, row, col){
-        document.getElementById("itemTable").rows[row].cells[col].innerHTML = input;
+        console.log(input);
+        console.log(" ?? " + document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].innerHTML);
+        document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].innerHTML = input;
+        document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].value = input;
+        console.log(" ?? " + document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].innerHTML);
+        //document.getElementsByTagName('BUTTON')[0].value = input;
         console.log("Input " + input + " into the table at row " + row + ", column " + col);
     }
     
@@ -61,11 +66,14 @@
                 
                 if(colCnt == 1) {
                     var btn = document.createElement("BUTTON");
-                    btn.setAttribute("onClick", "javascript:cycleStatus(" + cellData + ", " + rowCnt + ", " + colCnt + ")");
+                    //btn.setAttribute("onClick", "javascript:cycleStatus(" + cellData + ", " + rowCnt + ", " + colCnt + ")");
+                    btn.setAttribute("onClick", "javascript:cycleStatus(this.value, " + rowCnt + ", " + colCnt + ")");
                     btn.setAttribute("class", "statusButton");
+                   
 
                     var statusList = getStoredData("status-list");
                     
+                   // var t = document.createTextNode(statusList[cellData] + " " + rowCnt);
                     var t = document.createTextNode(statusList[cellData]);
                     btn.appendChild(t);
                     cell.appendChild(btn);
