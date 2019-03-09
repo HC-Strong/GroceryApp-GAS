@@ -63,12 +63,11 @@
             rowData.forEach(function(cellData) {
                 var cell = document.createElement('td');
                 
-                if(colCnt == 1) {
+                if(colCnt == 1) {                                          // got a hardcoded instance of column numbers here
                 
                     var statusList = getStoredData("status-list");
                     
                     var btn = document.createElement("BUTTON");
-                    //btn.setAttribute("onClick", "javascript:cycleStatus(" + cellData + ", " + rowCnt + ", " + colCnt + ")");
                     btn.setAttribute("onClick", "javascript:cycleStatus(this.value, " + rowCnt + ", " + colCnt + ")");               ////////////// pretty sure I can do these status settings in a more compact way
                     btn.setAttribute("class", "statusButton");
                     btn.setAttribute("value", cellData);
@@ -99,6 +98,36 @@
         
         console.log("successfully created table");
     }
+    
+    
+    function checkout(){
+    
+        console.log("checking out...");
+        var purchasedCnt = 0;
+    
+        var allItems = document.getElementById( "itemTable" );
+        var cartItems = [];
+        
+        
+        for ( var i = 0; i < allItems.rows.length; i++ ) {   // got some hardcoded instances of column numbers here
+          var status = allItems.rows[i].cells[1].getElementsByTagName('BUTTON')[0].innerHTML;
+        
+           if(status == "In Cart") {
+             cartItems.push({
+                item: allItems.rows[i].cells[0].innerHTML,
+                status: status,
+                rowNum: i
+             });
+           } else {
+             console.log(allItems.rows[i].cells[0].innerHTML + " not in cart");
+          } 
+     }
+     
+     //var tempArray = [];
+     //tempArray.push({greeting: "hi world..."});
+     //console.log(tempArray[0].greeting);
+     console.log(cartItems);
+   }
 
 
 
@@ -115,7 +144,7 @@
     <div id="storedData"></div>
     <div id="container" class="container">
      <input type="button" value="Create Table" 
-          onClick="google.script.run.withSuccessHandler(createTable).getDataTest('A1:B4')"/> &ensp;
+          onClick="google.script.run.withSuccessHandler(createTable).getDataTest('A1:B4')"/> &ensp;    <!-- hardcoded this range!!!! -->
       <br>
       <input type="button" value="Item ref test"
           onClick="javascript:showTableItem(2,0);"/> &ensp;
@@ -123,8 +152,13 @@
       ..........
       <br>
       <div id="tableContainer" align="center">Table will go here</div>
+      <br><br>
+      <div class="footer" align="center">                <!-- should maybe use CSS here as well -->
+         <input type="button" value="Checkout" class="uiButton" 
+             onClick="javascript:checkout();"/> &ensp;
+      </div>
       <br>
-      
+      <br>
       <div id = "test"> nothing to see here... </div>
     </div>
   </body>
@@ -139,16 +173,26 @@
 
   
   <style>
-      /* item status button style */
+    /* item status button style */
    .statusButton {
       width: 7.5em;
       height: 3em;
       border: 4.6px double grey;
-      border-radius: 15px;
+      border-radius: 1.1em;
       padding: 7px;
     }
     
-     /* table style */
+   /* general ui button style */
+   .uiButton {
+      width: 7.5em;
+      height: 3em;
+      border: 4.6px double grey;
+      border-radius: 1.1em;
+      padding: 7px;
+      font-size: 1.5em;
+    }
+    
+   /* table style */
    tr {height: 1em; padding: 4px; font-size: 200%;}
    td {width: 4em; padding: 4px;}
   
