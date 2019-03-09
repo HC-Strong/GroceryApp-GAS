@@ -30,19 +30,18 @@
         var text = document.getElementById("itemTable").rows[row].cells[col].innerHTML;
         return text;
     }
-    function setTableItem(input, row, col){
-        console.log(input);
-        console.log(" ?? " + document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].innerHTML);
-        document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].innerHTML = input;
+    function setTableItem(input, row, col){                         // this has become a lot less usefully generic when I hardcoded it to work only with the status list
+                                                                     //(that line with getStoredData("status-list") was originally in cycleStatus() )
+        var newStatus = getStoredData("status-list")[input];
+        document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].innerHTML = newStatus;
         document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].value = input;
-        console.log(" ?? " + document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].innerHTML);
-        //document.getElementsByTagName('BUTTON')[0].value = input;
-        console.log("Input " + input + " into the table at row " + row + ", column " + col);
+        console.log("Input " + newStatus + " (" + input + ") into the table at row " + row + ", column " + col);
     }
     
     
-    function cycleStatus(oldStatus, row, col){
-       var newStatus = getStoredData("status-list")[(oldStatus + 1)%3]
+    function cycleStatus(oldStatusNum, row, col){
+       console.log("status passed to cycle: " + oldStatusNum);
+       var newStatus = (oldStatusNum + 1)%3;
        
        setTableItem(newStatus, row, col);
        
@@ -65,17 +64,21 @@
                 var cell = document.createElement('td');
                 
                 if(colCnt == 1) {
-                    var btn = document.createElement("BUTTON");
-                    //btn.setAttribute("onClick", "javascript:cycleStatus(" + cellData + ", " + rowCnt + ", " + colCnt + ")");
-                    btn.setAttribute("onClick", "javascript:cycleStatus(this.value, " + rowCnt + ", " + colCnt + ")");
-                    btn.setAttribute("class", "statusButton");
-                   
-
+                
                     var statusList = getStoredData("status-list");
                     
+                    var btn = document.createElement("BUTTON");
+                    //btn.setAttribute("onClick", "javascript:cycleStatus(" + cellData + ", " + rowCnt + ", " + colCnt + ")");
+                    btn.setAttribute("onClick", "javascript:cycleStatus(this.value, " + rowCnt + ", " + colCnt + ")");               ////////////// pretty sure I can do these status settings in a more compact way
+                    btn.setAttribute("class", "statusButton");
+                    btn.setAttribute("value", cellData);
+                    
+                    btn.innerHTML = statusList[cellData];
+
+                    
                    // var t = document.createTextNode(statusList[cellData] + " " + rowCnt);
-                    var t = document.createTextNode(statusList[cellData]);
-                    btn.appendChild(t);
+                    //var t = document.createTextNode(statusList[cellData]);
+                    //btn.appendChild(t);
                     cell.appendChild(btn);
                 } else {
                     
