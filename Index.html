@@ -125,6 +125,7 @@
      //tempArray.push({greeting: "hi world..."});
      //console.log(tempArray[0].greeting);                // THIS HERE is an example of how to access stuff
      console.log(cartItems);
+     return cartItems;
    }
 
 
@@ -153,7 +154,8 @@
       <br><br>
       <div class="footer" align="center">                <!-- should maybe use CSS here as well -->
          <input type="button" value="Checkout" class="uiButton" 
-             onClick="javascript:checkout();"/> &ensp;
+             onClick="google.script.run.withSuccessHandler(google.script.run.withSuccessHandler(createTable).getDataTest('A1:B4')).checkoutToSheet(checkout());"/> &ensp;
+             <!-- I find it hard to believe that the above line with nexted .withSuccessHandler()s isn't a horrible idea, but for now it works -->
       </div>
       <br>
       <br>

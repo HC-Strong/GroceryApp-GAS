@@ -40,15 +40,16 @@ function getDataFromSheet(sheetName, rangeRef) {
   return data;
 }
 
-function checkout(rows) {
-  var range = itemSheet.getRange(rows[0], itemCols.status, rows[rows.length-1] + 1 - rows[0], 1);
+function checkoutToSheet(rows) {         // can probably make this a more general function for editing also (maybe even adding and/or deleting)
+  var range = itemSheet.getRange(rows[0].rowNum, itemCols.status, rows[rows.length-1].rowNum + 1 - rows[0].rowNum, 1);
   
-  iterateRowEdits(range, rows, statusUpdate);  
+  iterateRowEdits(range, rows, statusUpdate);
+  Logger.log("Done checking out");
 }
 
 function checkoutTest() {
   var rowList = [2, 4];
- checkout(rowList); 
+ checkoutToSheet(rowList); 
 }
 
 function statusUpdate(input){
@@ -60,18 +61,16 @@ function iterateRowEdits(range, rows, edits){ //edits is function. So either cha
 
  Logger.log(sheetData);
   
-  var firstRowToEdit = rows[0];
+  var firstRowToEdit = rows[0].rowNum;
   
   for (row in rows) {  // for each row in the list of rows to edit
-    var oldListPosition = +rows[row] - +firstRowToEdit + 1 - 1; //Plus 1 to make correct subtraction difference, minus 1 because indexes start at zero while row numbs start at 1
+    var oldListPosition = +rows[row].rowNum - +firstRowToEdit + 1 - 1; //Plus 1 to make correct subtraction difference, minus 1 because indexes start at zero while row numbs start at 1
     Logger.log(sheetData[oldListPosition]);
     sheetData[oldListPosition] = edits(sheetData[oldListPosition]);
   }
   Logger.log(sheetData);
   
   range.setValues(sheetData);
-  
-  Logger.log("Done checking out");
 }
 
 
