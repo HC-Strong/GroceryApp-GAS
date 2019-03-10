@@ -5,7 +5,8 @@
    <script>
    // Get the list of statuses from the spreadsheet when app launched and store to dataStorage div's data attribute for reference
       window.onload = function() {
-        google.script.run.withSuccessHandler(sheetDataToAttrib).getDataFromSheet("statuses", 'A1:A3')  /// this range is hardcoded, as is the name of the SS. Not sure how to avoid this in the JS but I can bring in the vars
+        google.script.run.withSuccessHandler(sheetDataToAttrib).getDataFromSheet("statuses", 'A1:A3'),  /// this range is hardcoded, as is the name of the SS. Not sure how to avoid this in the JS but I can bring in the vars
+        google.script.run.withSuccessHandler(createTable).getDataTest('A1:B4')
       };
    
      function sheetDataToAttrib(input) {
