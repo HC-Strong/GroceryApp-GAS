@@ -5,7 +5,7 @@
    <script>
    // Get the list of statuses from the spreadsheet when app launched and store to dataStorage div's data attribute for reference
       window.onload = function() {
-        google.script.run.withSuccessHandler(sheetDataToAttrib).getDataFromSheet("statuses", 'A1:A3')
+        google.script.run.withSuccessHandler(sheetDataToAttrib).getDataFromSheet("statuses", 'A1:A3')  /// this range is hardcoded, as is the name of the SS. Not sure how to avoid this in the JS but I can bring in the vars
       };
    
      function sheetDataToAttrib(input) {
@@ -33,15 +33,15 @@
     function setTableItem(input, row, col){                         // this has become a lot less usefully generic when I hardcoded it to work only with the status list
                                                                      //(that line with getStoredData("status-list") was originally in cycleStatus() )
         var newStatus = getStoredData("status-list")[input];
-        document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].innerHTML = newStatus;
-        document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].value = input;
+        document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].innerHTML = newStatus;  // Zero here isn't hardcoding anything, just selecting the first (ie, only) button in that ID
+        document.getElementById("itemTable").rows[row].cells[col].getElementsByTagName('BUTTON')[0].value = input;          // see above
         console.log("Input " + newStatus + " (" + input + ") into the table at row " + row + ", column " + col);
     }
     
     
     function cycleStatus(oldStatusNum, row, col){
        console.log("status passed to cycle: " + oldStatusNum);
-       var newStatus = (oldStatusNum + 1)%3;
+       var newStatus = (oldStatusNum + 1)%3;   // 3 Here is hardcoded based on # of statuses. Probably won't change, but worth considering
        
        setTableItem(newStatus, row, col);
        
@@ -84,8 +84,6 @@
                     var t = document.createTextNode(cellData);
                     cell.appendChild(t);
                 }
-                
-
                 row.appendChild(cell);
                 colCnt++;
             });
@@ -116,7 +114,7 @@
              cartItems.push({
                 item: allItems.rows[i].cells[0].innerHTML,
                 status: status,
-                rowNum: i
+                rowNum: i + 1
              });
            } else {
              console.log(allItems.rows[i].cells[0].innerHTML + " not in cart");
@@ -125,7 +123,7 @@
      
      //var tempArray = [];
      //tempArray.push({greeting: "hi world..."});
-     //console.log(tempArray[0].greeting);
+     //console.log(tempArray[0].greeting);                // THIS HERE is an example of how to access stuff
      console.log(cartItems);
    }
 
