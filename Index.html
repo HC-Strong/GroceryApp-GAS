@@ -128,7 +128,17 @@
      console.log(cartItems);
      return cartItems;
    }
-
+   
+   
+   function confirmCheckout() {
+      var txt;
+      var r = confirm("Are you sure you want to checkout? This will mark all items in your cart as not needed and cannot be undone.");
+      if (r == true) {
+         google.script.run.withSuccessHandler(google.script.run.withSuccessHandler(createTable).getDataTest('A1:B4')).checkoutToSheet(checkout());
+      } else {
+         alert("Checkout cancelled");
+      }
+   }
 
 
   </script>
@@ -143,11 +153,13 @@
   <body>
     <div id="storedData"></div>
     <div id="container" class="container">
-     <input type="button" value="Create Table" 
+     <input type="button" value="Reload Table" 
           onClick="google.script.run.withSuccessHandler(createTable).getDataTest('A1:B4')"/> &ensp;    <!-- hardcoded this range!!!! -->
       <br>
       <input type="button" value="Item ref test"
           onClick="javascript:showTableItem(2,0);"/> &ensp;
+      <input type="button" value="Confirmation test"
+          onClick="javascript:confirmCheckout();"/> &ensp;'
       <br>
       ..........
       <br>
