@@ -5,14 +5,15 @@
    <script>
    // Get the list of statuses from the spreadsheet when app launched and store to dataStorage div's data attribute for reference
       window.onload = function() {
-        google.script.run.withSuccessHandler(sheetDataToAttrib).getDataFromSheet("statuses", 'A1:A3'),  /// this range is hardcoded, as is the name of the SS. Not sure how to avoid this in the JS but I can bring in the vars
-        google.script.run.withSuccessHandler(createTable).getDataTest('A1:B4')
+        console.log("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+        google.script.run.withSuccessHandler(sheetDataToAttrib).getDataFromSheet("statuses", 'A1:A3');  /// this range is hardcoded, as is the name of the SS. Not sure how to avoid this in the JS but I can bring in the vars
+        google.script.run.withSuccessHandler(createTable).getDataTest('A1:B4');
       };
    
      function sheetDataToAttrib(input) {
        var dataStorage = document.getElementById("storedData");
        dataStorage.setAttribute("data-status-list", input);
-       console.log(getStoredData("status-list"));
+       //console.log(getStoredData("status-list"));    // Here to check what was just stored but only needed when things go wrong.
      }
        
      function getStoredData(dataName){
@@ -56,7 +57,12 @@
         table.setAttribute("id", "itemTable");
         var tableBody = document.createElement('tbody');
         
+        var statusList = getStoredData("status-list");
+        var btn = document.createElement("BUTTON");
+        
         var rowCnt = 0;
+        
+        
         tableData.forEach(function(rowData) {
             var row = document.createElement('tr');
             
@@ -66,9 +72,7 @@
                 
                 if(colCnt == 1) {                                          // got a hardcoded instance of column numbers here
                 
-                    var statusList = getStoredData("status-list");
                     
-                    var btn = document.createElement("BUTTON");
                     btn.setAttribute("onClick", "javascript:cycleStatus(this.value, " + rowCnt + ", " + colCnt + ")");               ////////////// pretty sure I can do these status settings in a more compact way
                     btn.setAttribute("class", "statusButton");
                     btn.setAttribute("value", cellData);
