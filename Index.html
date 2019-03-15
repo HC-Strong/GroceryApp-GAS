@@ -18,6 +18,7 @@
        
      function getStoredData(dataName){
           var rawData = document.getElementById("storedData").getAttribute("data-" + dataName);
+          console.log("raw data is " + rawData);
           var data = rawData.split(",");
           return data;
      }
