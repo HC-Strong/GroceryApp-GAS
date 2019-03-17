@@ -63,6 +63,8 @@
         table.setAttribute("id", "itemTable");
         var tableBody = document.createElement('tbody');
         
+        var statusList = getStoredData("status-list");
+        
         var rowCnt = 0;
         tableData.forEach(function(rowData) {
             var row = document.createElement('tr');
@@ -73,7 +75,6 @@
                 
                 if(colCnt == 1) {                                          // got a hardcoded instance of column numbers here
                 
-                    var statusList = getStoredData("status-list");
                     
                     var btn = document.createElement("BUTTON");
                     btn.setAttribute("onClick", "javascript:cycleStatus(this.value, " + rowCnt + ", " + colCnt + ")");               ////////////// pretty sure I can do these status settings in a more compact way
