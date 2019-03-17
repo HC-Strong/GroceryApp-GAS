@@ -18,9 +18,14 @@
        
      function getStoredData(dataName){
           var rawData = document.getElementById("storedData").getAttribute("data-" + dataName);
-          console.log("raw data is " + rawData);
-          var data = rawData.split(",");
-          return data;
+          
+          if (rawData != null) {
+            console.log("raw data is " + rawData);
+            var data = rawData.split(",");
+            return data;
+          } else {
+            return 0;
+          }
      }
    
    
@@ -58,6 +63,20 @@
         table.setAttribute("id", "itemTable");
         var tableBody = document.createElement('tbody');
         
+        
+        //sheetDataToAttrib(["huh", "weird", "ummmm"]);
+        google.script.run.withSuccessHandler(sheetDataToAttrib).getDataFromSheet("statuses", 'A1:A3');  // hardcoded
+        var statusList = getStoredData("status-list");
+        console.log("the data available to make tables is:   " + statusList);
+        
+        if (statusList == 0) {
+            sheetDataToAttrib(["huh", "weird", "ummmm"]);
+            var test = getStoredData("status-list");
+            console.log("error" + test);
+        } else {
+            console.log("no error");
+        }
+        
         var rowCnt = 0;
         tableData.forEach(function(rowData) {
             var row = document.createElement('tr');
@@ -68,19 +87,16 @@
                 
                 if(colCnt == 1) {                                          // got a hardcoded instance of column numbers here
                 
-                    var statusList = getStoredData("status-list");
                     
                     var btn = document.createElement("BUTTON");
                     btn.setAttribute("onClick", "javascript:cycleStatus(this.value, " + rowCnt + ", " + colCnt + ")");               ////////////// pretty sure I can do these status settings in a more compact way
                     btn.setAttribute("class", "statusButton");
                     btn.setAttribute("value", cellData);
+                    console.log("cell data is   " + cellData);
+                    console.log("status list is   " + statusList);
                     
                     btn.innerHTML = statusList[cellData];
 
-                    
-                   // var t = document.createTextNode(statusList[cellData] + " " + rowCnt);
-                    //var t = document.createTextNode(statusList[cellData]);
-                    //btn.appendChild(t);
                     cell.appendChild(btn);
                 } else {
                     
